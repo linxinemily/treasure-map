@@ -4,10 +4,10 @@ type Healing struct {
 	*AbstractState
 }
 
-func NewHealing(role Role) *Healing {
-	return &Healing{
+func NewHealing(role Role) *IState {
+	return &IState{&Healing{
 		NewAbstractState(5, "恢復", role),
-	}
+	}}
 }
 
 func (state *Healing) beforeTakeTurn() int {

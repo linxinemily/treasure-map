@@ -10,10 +10,10 @@ type Orderless struct {
 	*AbstractState
 }
 
-func NewOrderless(role Role) *Orderless {
-	return &Orderless{
+func NewOrderless(role Role) *IState {
+	return &IState{&Orderless{
 		NewAbstractState(3, "混亂", role),
-	}
+	}}
 }
 
 func (state *Orderless) getValidDirections() []enum.RoleDirection {

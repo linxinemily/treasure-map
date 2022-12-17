@@ -4,18 +4,14 @@ type Erupting struct {
 	*AbstractState
 }
 
-func NewErupting(role Role) *Erupting {
-	return &Erupting{
+func NewErupting(role Role) *IState {
+	return &IState{&Erupting{
 		NewAbstractState(3, "爆發", role),
-	}
+	}}
 }
 
-func (state *Erupting) checkStateIfExpired() bool {
-	if state.round >= state.expiredRound {
-		state.role.applyState(NewTeleport(state.role))
-		return true
-	}
-	return false
+func (state *Erupting) afterExpired() {
+	state.role.applyState(NewTeleport(state.role))
 }
 
 func (state *Erupting) attack() {

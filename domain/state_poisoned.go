@@ -4,10 +4,10 @@ type Poisoned struct {
 	*AbstractState
 }
 
-func NewPoisoned(role Role) *Poisoned {
-	return &Poisoned{
+func NewPoisoned(role Role) *IState {
+	return &IState{&Poisoned{
 		NewAbstractState(3, "中毒", role),
-	}
+	}}
 }
 
 func (state *Poisoned) beforeTakeTurn() int {

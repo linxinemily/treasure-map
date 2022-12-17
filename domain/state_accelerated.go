@@ -4,10 +4,10 @@ type Accelerated struct {
 	*AbstractState
 }
 
-func NewAccelerated(role Role) *Accelerated {
-	return &Accelerated{
+func NewAccelerated(role Role) *IState {
+	return &IState{&Accelerated{
 		NewAbstractState(3, "加速", role),
-	}
+	}}
 }
 
 func (state *Accelerated) attacked() {

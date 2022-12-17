@@ -12,7 +12,7 @@ type Role interface {
 	MapObject
 	attack()
 	takeTurn()
-	applyState(state State)
+	applyState(state *IState)
 	checkStateIfExpired() bool
 	beforeTakeTurn() int
 	afterAttacked()
@@ -32,7 +32,7 @@ type Role interface {
 type AbstractRole struct {
 	m *Map
 	*AbstractMapObject
-	state  State
+	state  *IState
 	hp     int
 	fullHP int
 }
@@ -95,7 +95,7 @@ func (role *AbstractRole) beforeTakeTurn() int {
 	return role.state.beforeTakeTurn()
 }
 
-func (role *AbstractRole) applyState(state State) {
+func (role *AbstractRole) applyState(state *IState) {
 	role.state = state
 }
 

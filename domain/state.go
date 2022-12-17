@@ -8,10 +8,25 @@ type State interface {
 	String() string
 	attack()
 	attacked()
-	checkStateIfExpired() bool
 	beforeTakeTurn() int
 	getValidDirections() []enum.RoleDirection
 	increaseDuringRound()
+	Round() int
+	ExpiredRound() int
+	afterExpired()
+}
+
+type IState struct {
+	State
+}
+
+func (state *IState) checkStateIfExpired() bool {
+	if state.Round() >= state.ExpiredRound() {
+		state.afterExpired()
+		return true
+	}
+
+	return false
 }
 
 type AbstractState struct {
@@ -34,6 +49,18 @@ func (state *AbstractState) String() string {
 	return state.name
 }
 
+func (state *AbstractState) Round() int {
+	return state.round
+}
+
+func (state *AbstractState) ExpiredRound() int {
+	return state.expiredRound
+}
+
+func (state *AbstractState) afterExpired() {
+	state.role.applyState(NewNormal(state.role))
+}
+
 func (state *AbstractState) attack() {
 	for _, enemy := range state.role.getValidEnemies() {
 		enemy.attacked()
@@ -42,15 +69,6 @@ func (state *AbstractState) attack() {
 
 func (state *AbstractState) attacked() {
 	state.role.afterAttacked()
-}
-
-func (state *AbstractState) checkStateIfExpired() bool {
-	if state.round >= state.expiredRound {
-		state.role.applyState(NewNormal(state.role))
-		return true
-	}
-
-	return false
 }
 
 func (state *AbstractState) beforeTakeTurn() int {

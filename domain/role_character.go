@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"math/rand"
 	"os"
-	"reflect"
 	"time"
 )
 
@@ -107,13 +106,7 @@ func (char *Character) getValidEnemies() []Role {
 			if _, isObstacle := char.m.objects[i][char.col].(*Obstacle); isObstacle {
 				break
 			}
-			fmt.Println(i)
-			fmt.Println(reflect.TypeOf(char.m.objects[i][char.col]))
-			monster, isMonster := char.m.objects[i][char.col].(*Monster)
-			fmt.Println(monster, isMonster)
-
 			if monster, isMonster := char.m.objects[i][char.col].(*Monster); isMonster {
-				fmt.Println(isMonster)
 				monsters = append(monsters, monster)
 			}
 		}
@@ -122,13 +115,7 @@ func (char *Character) getValidEnemies() []Role {
 			if _, isObstacle := char.m.objects[i][char.col].(*Obstacle); isObstacle {
 				break
 			}
-			fmt.Println(i)
-			fmt.Println(reflect.TypeOf(char.m.objects[i][char.col]))
-			monster, isMonster := char.m.objects[i][char.col].(*Monster)
-			fmt.Println(monster, isMonster)
-
 			if monster, isMonster := char.m.objects[i][char.col].(*Monster); isMonster {
-				fmt.Println(isMonster)
 				monsters = append(monsters, monster)
 			}
 		}
