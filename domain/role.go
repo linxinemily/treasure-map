@@ -24,7 +24,6 @@ type Role interface {
 	addHP(hp int)
 	isFullHP() bool
 	roundEnd()
-	checkRoleHP(self Role)
 	getHP() int
 	getFullHP() int
 }
@@ -52,11 +51,8 @@ func (role *AbstractRole) checkStateIfExpired() bool {
 
 func (role *AbstractRole) subtractHP(hp int) {
 	role.hp -= hp
-}
-
-func (role *AbstractRole) checkRoleHP(self Role) {
 	if role.hp <= 0 {
-		role.m.removeRole(self)
+		role.m.removeObject(role)
 	}
 }
 

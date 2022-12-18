@@ -20,7 +20,7 @@ func NewMonster(m *Map) *Monster {
 }
 
 func (monster *Monster) takeTurn() {
-	if monster.hp == 0 { //如果這輪已經遭受攻擊死亡，就不再繼續
+	if monster.hp <= 0 { //如果這輪已經遭受攻擊死亡，就不再繼續
 		return
 	}
 	//如果主角沒有位於怪物的攻擊範圍之內的話，怪物將會自主決定要往哪一個方向移動一格
@@ -64,7 +64,7 @@ func (monster *Monster) getCharacterAt(row, col int) *Character {
 func (monster *Monster) afterAttacked() {
 	// 死亡，直接從地圖移除
 	monster.hp = 0
-	monster.m.removeRole(monster)
+	monster.m.removeObject(monster)
 }
 
 func (monster *Monster) getAllEnemies() []Role {

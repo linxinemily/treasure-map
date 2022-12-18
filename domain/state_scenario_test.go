@@ -29,24 +29,41 @@ func TestInvincibleStateScenario(t *testing.T) {
 }
 
 func TestPoisonedStateScenario(t *testing.T) {
-	m := NewMap(10, NewGame())
-	character := NewCharacter(m)
-	character.applyState(NewPoisoned(character))
+	t.Run("主角", func(t *testing.T) {
+		m := NewMap(10, NewGame())
+		character := NewCharacter(m)
+		character.applyState(NewPoisoned(character))
 
-	assertHP := character.fullHP
-	for i := 0; i < 3; i++ { // 經過 3 回合
-		assert.False(t, character.checkStateIfExpired())
+		assertHP := character.fullHP
+		for i := 0; i < 3; i++ { // 經過 3 回合
+			assert.False(t, character.checkStateIfExpired())
 
-		assert.Equal(t, 1, character.beforeTakeTurn())
+			assert.Equal(t, 1, character.beforeTakeTurn())
 
-		assertHP -= 15
-		assert.Equal(t, assertHP, character.hp)
+			assertHP -= 15
+			assert.Equal(t, assertHP, character.hp)
 
-		character.roundEnd()
-	}
+			character.roundEnd()
+		}
 
-	assert.True(t, character.checkStateIfExpired())
-	assert.Equal(t, NewNormal(character).String(), character.state.String())
+		assert.True(t, character.checkStateIfExpired())
+		assert.Equal(t, NewNormal(character).String(), character.state.String())
+
+	})
+
+	t.Run("怪物", func(t *testing.T) {
+		m := NewMap(10, NewGame())
+		monster := NewMonster(m)
+		m.putRoleAt(monster, 5, 3)
+		monster.applyState(NewPoisoned(monster))
+		assert.False(t, monster.checkStateIfExpired())
+		assert.Equal(t, 1, monster.beforeTakeTurn())
+		monster.roundEnd()
+
+		res, _ := monster.m.getObjectAt(5, 3)
+		assert.True(t, res == nil)
+		assert.True(t, len(m.roles) == 0)
+	})
 
 }
 

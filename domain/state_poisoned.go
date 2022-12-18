@@ -12,6 +12,5 @@ func NewPoisoned(role Role) *IState {
 
 func (state *Poisoned) beforeTakeTurn() int {
 	state.role.subtractHP(15)
-	state.role.checkRoleHP(state.role)
 	return 1
 }

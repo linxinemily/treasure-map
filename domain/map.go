@@ -137,7 +137,7 @@ func (m *Map) moveRoleTo(role Role, toRow, toCol int) error {
 	return nil
 }
 
-func (m *Map) removeRole(role Role) {
+func (m *Map) removeObject(role MapObject) {
 	removed := m.objects[role.Row()][role.Col()]
 
 	for i := 0; i < len(m.roles); i++ {
